@@ -2,6 +2,8 @@
 
 An [MCP server](https://modelcontextprotocol.io/introduction) that integrates the [SearXNG](https://docs.searxng.org) API, giving AI assistants web search capabilities.
 
+This fork is published as `@kassol/mcp-searxng` and includes support for custom outgoing headers via `SEARXNG_HEADERS` and `URL_READER_HEADERS`.
+
 [![https://nodei.co/npm/mcp-searxng.png?downloads=true&downloadRank=true&stars=true](https://nodei.co/npm/mcp-searxng.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/mcp-searxng)
 
 [![https://badgen.net/docker/pulls/isokoliuk/mcp-searxng](https://badgen.net/docker/pulls/isokoliuk/mcp-searxng)](https://hub.docker.com/r/isokoliuk/mcp-searxng)
@@ -17,7 +19,7 @@ Add to your MCP client configuration (e.g. `claude_desktop_config.json`):
   "mcpServers": {
     "searxng": {
       "command": "npx",
-      "args": ["-y", "mcp-searxng"],
+      "args": ["-y", "@kassol/mcp-searxng"],
       "env": {
         "SEARXNG_URL": "YOUR_SEARXNG_INSTANCE_URL"
       }
@@ -81,7 +83,7 @@ AI Assistant (e.g. Claude)
 <summary>NPM (global install)</summary>
 
 ```bash
-npm install -g mcp-searxng
+npm install -g @kassol/mcp-searxng
 ```
 
 ```json
@@ -209,7 +211,7 @@ Protected SearXNG instances can receive extra search request headers through `SE
   "mcpServers": {
     "searxng": {
       "command": "npx",
-      "args": ["-y", "mcp-searxng"],
+      "args": ["-y", "@kassol/mcp-searxng"],
       "env": {
         "SEARXNG_URL": "https://search.example.com",
         "SEARXNG_HEADERS": "{\"CF-Access-Client-Id\":\"your-client-id.access\",\"CF-Access-Client-Secret\":\"your-client-secret\"}"

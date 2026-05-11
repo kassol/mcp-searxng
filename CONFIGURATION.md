@@ -86,7 +86,7 @@ Complete MCP client configuration with every variable. Mix and match as needed â
   "mcpServers": {
     "searxng": {
       "command": "npx",
-      "args": ["-y", "mcp-searxng"],
+      "args": ["-y", "@kassol/mcp-searxng"],
       "env": {
         "SEARXNG_URL": "YOUR_SEARXNG_INSTANCE_URL",
         "AUTH_USERNAME": "your_username",

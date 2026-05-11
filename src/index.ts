@@ -20,7 +20,7 @@ import { createConfigResource, createHelpResource } from "./resources.js";
 import { createHttpServer } from "./http-server.js";
 
 // Use a static version string that will be updated by the version script
-const packageVersion = "1.0.3";
+const packageVersion = "1.0.3-custom.0";
 
 // Export the version for use in other modules
 export { packageVersion };
@@ -76,7 +76,7 @@ export function isWebUrlReadArgs(args: unknown): args is {
 export function createMcpServer(): McpServer {
   const mcpServer = new McpServer(
     {
-      name: "ihor-sokoliuk/mcp-searxng",
+      name: "kassol/mcp-searxng",
       version: packageVersion,
     },
     {

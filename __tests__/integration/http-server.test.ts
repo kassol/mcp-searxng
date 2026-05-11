@@ -34,7 +34,7 @@ async function runTests() {
     assert.equal(res.body.status, 'healthy');
     assert.equal(res.body.transport, 'http');
     assert.ok(typeof res.body.version === 'string');
-    assert.equal(res.body.server, 'ihor-sokoliuk/mcp-searxng');
+    assert.equal(res.body.server, 'kassol/mcp-searxng');
   }, results);
 
   await testFunction('GET /health includes CORS headers', async () => {

@@ -1,18 +1,18 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.ihor-sokoliuk/mcp-searxng",
+  "name": "io.github.kassol/mcp-searxng",
   "title": "SearXNG Search",
   "description": "MCP server for SearXNG — privacy-respecting web search with pagination, URL reading",
   "repository": {
-    "url": "https://github.com/ihor-sokoliuk/mcp-searxng",
+    "url": "https://github.com/kassol/mcp-searxng",
     "source": "github"
   },
-  "version": "1.0.3",
+  "version": "1.0.3-custom.0",
   "packages": [
     {
       "registryType": "npm",
-      "identifier": "mcp-searxng",
-      "version": "1.0.3",
+      "identifier": "@kassol/mcp-searxng",
+      "version": "1.0.3-custom.0",
       "transport": {
         "type": "stdio"
       },
@@ -22,6 +22,27 @@
           "description": "URL of your SearXNG instance",
           "isRequired": true,
           "isSecret": false,
+          "format": "string"
+        },
+        {
+          "name": "USER_AGENT",
+          "description": "Global User-Agent header for outgoing requests",
+          "isRequired": false,
+          "isSecret": false,
+          "format": "string"
+        },
+        {
+          "name": "SEARXNG_HEADERS",
+          "description": "Extra JSON headers for SearXNG search requests",
+          "isRequired": false,
+          "isSecret": true,
+          "format": "string"
+        },
+        {
+          "name": "URL_READER_HEADERS",
+          "description": "Extra JSON headers for URL read requests",
+          "isRequired": false,
+          "isSecret": true,
           "format": "string"
         }
       ]
