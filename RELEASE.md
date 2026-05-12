@@ -63,6 +63,41 @@ npm --cache /private/tmp/npm-cache pack --dry-run
 
 ## Publish
 
+### Automatic Publish
+
+This repository publishes from GitHub Actions when a version tag is pushed. It uses npm Trusted Publishing, so no long-lived npm token is stored in GitHub.
+
+One-time npm setup:
+
+1. Open the package settings for `@kassol/mcp-searxng` on npmjs.com.
+2. Add a Trusted Publisher for GitHub Actions.
+3. Use these values:
+
+```text
+Organization or user: kassol
+Repository: mcp-searxng
+Workflow filename: publish.yml
+Environment name: leave empty
+```
+
+Release flow:
+
+```bash
+npm pkg set version=1.1.0
+npm install --package-lock-only
+npm run sync-version
+git add package.json package-lock.json src/index.ts .mcp/server.json
+git commit -m "chore: release v1.1.0"
+git tag v1.1.0
+git push origin main --tags
+```
+
+The workflow validates that the pushed tag matches `package.json` before publishing.
+
+You can run a CI dry-run from GitHub Actions → Publish Package → Run workflow. Manual runs do not publish; they only run checks and `npm publish --dry-run`.
+
+### Manual Publish
+
 Publish as a public scoped package:
 
 ```bash
@@ -83,15 +118,4 @@ Confirm install resolution:
 
 ```bash
 npm --cache /private/tmp/npm-cache --prefer-online exec --yes --package @kassol/mcp-searxng -- mcp-searxng --help
-```
-
-## Commit and Tag
-
-Commit release metadata and tag the release:
-
-```bash
-git add package.json package-lock.json src/index.ts .mcp/server.json README.md CONFIGURATION.md RELEASE.md
-git commit -m "chore: release v1.1.0"
-git tag v1.1.0
-git push origin main --tags
 ```
