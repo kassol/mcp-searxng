@@ -72,10 +72,10 @@ One-time npm setup:
 Configure Trusted Publishing with the npm CLI:
 
 ```bash
-npm trust github @kassol/mcp-searxng --file publish.yml --repo kassol/mcp-searxng --yes
+npx -y npm@latest trust github @kassol/mcp-searxng --file publish.yml --repo kassol/mcp-searxng --yes
 ```
 
-If npm asks for browser authentication or 2FA, complete that flow and rerun the command.
+If your local `npm` is 11.10.0 or newer, `npm trust github ...` also works. If npm asks for browser authentication or 2FA, complete that flow and rerun the command.
 
 Alternatively, open the package settings for `@kassol/mcp-searxng` on npmjs.com, add a Trusted Publisher for GitHub Actions, and use these values:
 
