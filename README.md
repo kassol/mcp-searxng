@@ -204,7 +204,25 @@ curl http://localhost:3000/health
 
 Set `SEARXNG_URL` to your SearXNG instance URL. All other variables are optional.
 
-Protected SearXNG instances can receive extra search request headers through `SEARXNG_HEADERS_BASE64`:
+Protected SearXNG instances can receive extra search request headers through `SEARXNG_HEADERS_BASE64`. This is the recommended format for ChatWise and other MCP clients that treat environment variables as plain key-value fields.
+
+Generate the value directly from existing Cloudflare Access environment variables:
+
+```bash
+export CF_ACCESS_CLIENT_ID='your-client-id.access'
+export CF_ACCESS_CLIENT_SECRET='your-client-secret'
+
+node -e 'console.log(Buffer.from(JSON.stringify({"CF-Access-Client-Id":process.env.CF_ACCESS_CLIENT_ID,"CF-Access-Client-Secret":process.env.CF_ACCESS_CLIENT_SECRET})).toString("base64"))'
+```
+
+Verify the generated value:
+
+```bash
+export SEARXNG_HEADERS_BASE64='paste-generated-value-here'
+node -e 'console.log(Buffer.from(process.env.SEARXNG_HEADERS_BASE64,"base64").toString("utf8"))'
+```
+
+MCP client configuration:
 
 ```json
 {
@@ -221,11 +239,15 @@ Protected SearXNG instances can receive extra search request headers through `SE
 }
 ```
 
-Generate that value with:
+ChatWise environment variables:
 
-```bash
-node -e 'console.log(Buffer.from(JSON.stringify({"CF-Access-Client-Id":"your-client-id.access","CF-Access-Client-Secret":"your-client-secret"})).toString("base64"))'
+```text
+SEARXNG_URL=https://search.example.com
+USER_AGENT=Mozilla/5.0
+SEARXNG_HEADERS_BASE64=paste-generated-value-here
 ```
+
+`SEARXNG_HEADERS_BASE64` applies only to `searxng_web_search` requests. Use `URL_READER_HEADERS_BASE64` for headers that should be sent by `web_url_read`.
 
 Full environment variable reference: [CONFIGURATION.md](CONFIGURATION.md)
 

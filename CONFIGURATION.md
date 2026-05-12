@@ -42,6 +42,32 @@ Example for Cloudflare Access in front of SearXNG:
 }
 ```
 
+Recommended ChatWise workflow:
+
+```bash
+export CF_ACCESS_CLIENT_ID='your-client-id.access'
+export CF_ACCESS_CLIENT_SECRET='your-client-secret'
+
+node -e 'console.log(Buffer.from(JSON.stringify({"CF-Access-Client-Id":process.env.CF_ACCESS_CLIENT_ID,"CF-Access-Client-Secret":process.env.CF_ACCESS_CLIENT_SECRET})).toString("base64"))'
+```
+
+Set the generated value in ChatWise:
+
+```text
+SEARXNG_URL=https://search.example.com
+USER_AGENT=Mozilla/5.0
+SEARXNG_HEADERS_BASE64=paste-generated-value-here
+```
+
+Verify a base64 value before pasting it into an MCP client:
+
+```bash
+export SEARXNG_HEADERS_BASE64='paste-generated-value-here'
+node -e 'console.log(Buffer.from(process.env.SEARXNG_HEADERS_BASE64,"base64").toString("utf8"))'
+```
+
+Use `SEARXNG_HEADERS_BASE64` for `searxng_web_search` and `URL_READER_HEADERS_BASE64` for `web_url_read`.
+
 ## Proxy
 
 Interface-specific proxies take priority over global proxies for their respective tools.
