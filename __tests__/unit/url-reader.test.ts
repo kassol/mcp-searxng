@@ -283,6 +283,30 @@ async function runTests() {
     envManager.restore();
   }, results);
 
+  await testFunction('URL_READER_HEADERS_BASE64 adds custom headers to URL reads', async () => {
+    const mockServer = createMockServer();
+    urlCache.clear();
+
+    envManager.set('URL_READER_HEADERS_BASE64', Buffer.from(JSON.stringify({
+      'X-Reader-Base64': 'reader-base64-token'
+    })).toString('base64'));
+
+    let capturedOptions: RequestInit | undefined;
+    fetchMocker.mock(async (_url, options) => {
+      capturedOptions = options;
+      return createMockFetch({ body: '<html><body><h1>Reader Base64 Test</h1></body></html>' })('', undefined);
+    });
+
+    const result = await fetchAndConvertToMarkdown(mockServer as any, 'https://reader-base64-header-test.com');
+    assert.ok(result.includes('Reader Base64 Test'));
+
+    const headers = capturedOptions?.headers as Record<string, string>;
+    assert.equal(headers['x-reader-base64'], 'reader-base64-token');
+
+    fetchMocker.restore();
+    envManager.restore();
+  }, results);
+
   await testFunction('hardened mode blocks localhost URL reads', async () => {
     const mockServer = createMockServer();
     envManager.set('MCP_HTTP_HARDEN', 'true');

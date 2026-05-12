@@ -204,7 +204,7 @@ curl http://localhost:3000/health
 
 Set `SEARXNG_URL` to your SearXNG instance URL. All other variables are optional.
 
-Protected SearXNG instances can receive extra search request headers through `SEARXNG_HEADERS`:
+Protected SearXNG instances can receive extra search request headers through `SEARXNG_HEADERS_BASE64`:
 
 ```json
 {
@@ -214,11 +214,17 @@ Protected SearXNG instances can receive extra search request headers through `SE
       "args": ["-y", "@kassol/mcp-searxng"],
       "env": {
         "SEARXNG_URL": "https://search.example.com",
-        "SEARXNG_HEADERS": "{\"CF-Access-Client-Id\":\"your-client-id.access\",\"CF-Access-Client-Secret\":\"your-client-secret\"}"
+        "SEARXNG_HEADERS_BASE64": "eyJDRi1BY2Nlc3MtQ2xpZW50LUlkIjoieW91ci1jbGllbnQtaWQuYWNjZXNzIiwiQ0YtQWNjZXNzLUNsaWVudC1TZWNyZXQiOiJ5b3VyLWNsaWVudC1zZWNyZXQifQ=="
       }
     }
   }
 }
+```
+
+Generate that value with:
+
+```bash
+node -e 'console.log(Buffer.from(JSON.stringify({"CF-Access-Client-Id":"your-client-id.access","CF-Access-Client-Secret":"your-client-secret"})).toString("base64"))'
 ```
 
 Full environment variable reference: [CONFIGURATION.md](CONFIGURATION.md)

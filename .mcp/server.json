@@ -7,12 +7,12 @@
     "url": "https://github.com/kassol/mcp-searxng",
     "source": "github"
   },
-  "version": "1.0.3-custom.0",
+  "version": "1.0.3-custom.1",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "@kassol/mcp-searxng",
-      "version": "1.0.3-custom.0",
+      "version": "1.0.3-custom.1",
       "transport": {
         "type": "stdio"
       },
@@ -39,8 +39,22 @@
           "format": "string"
         },
         {
+          "name": "SEARXNG_HEADERS_BASE64",
+          "description": "Base64-encoded JSON headers for SearXNG search requests",
+          "isRequired": false,
+          "isSecret": true,
+          "format": "string"
+        },
+        {
           "name": "URL_READER_HEADERS",
           "description": "Extra JSON headers for URL read requests",
+          "isRequired": false,
+          "isSecret": true,
+          "format": "string"
+        },
+        {
+          "name": "URL_READER_HEADERS_BASE64",
+          "description": "Base64-encoded JSON headers for URL read requests",
           "isRequired": false,
           "isSecret": true,
           "format": "string"

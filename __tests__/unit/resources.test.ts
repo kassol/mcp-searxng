@@ -103,8 +103,8 @@ async function runTests() {
   }, results);
 
   await testFunction('createConfigResource - custom header env vars are exposed as booleans', () => {
-    envManager.set('SEARXNG_HEADERS', '{"X-Token":"search-secret"}');
-    envManager.set('URL_READER_HEADERS', '{"X-Token":"reader-secret"}');
+    envManager.set('SEARXNG_HEADERS_BASE64', Buffer.from('{"X-Token":"search-secret"}').toString('base64'));
+    envManager.set('URL_READER_HEADERS_BASE64', Buffer.from('{"X-Token":"reader-secret"}').toString('base64'));
 
     const config = JSON.parse(createConfigResource());
     assert.equal(config.environment.hasSearxngHeaders, true);

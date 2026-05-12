@@ -17,8 +17,8 @@ export function createConfigResource() {
         ? { searxngUrl: process.env.SEARXNG_URL || "(not configured)" }
         : { searxngUrlConfigured: !!process.env.SEARXNG_URL }),
       hasAuth: !!(process.env.AUTH_USERNAME && process.env.AUTH_PASSWORD),
-      hasSearxngHeaders: !!process.env.SEARXNG_HEADERS,
-      hasUrlReaderHeaders: !!process.env.URL_READER_HEADERS,
+      hasSearxngHeaders: !!(process.env.SEARXNG_HEADERS || process.env.SEARXNG_HEADERS_BASE64),
+      hasUrlReaderHeaders: !!(process.env.URL_READER_HEADERS || process.env.URL_READER_HEADERS_BASE64),
       hasProxy: !!(process.env.HTTP_PROXY || process.env.HTTPS_PROXY || process.env.http_proxy || process.env.https_proxy),
       hasNoProxy: !!(process.env.NO_PROXY || process.env.no_proxy),
       nodeVersion: process.version,
@@ -69,7 +69,9 @@ Reads and converts web page content to Markdown format.
 - \`USER_AGENT\`: Global User-Agent header for outgoing requests
 - \`URL_READER_USER_AGENT\`: User-Agent for \`web_url_read\`, overrides \`USER_AGENT\`
 - \`SEARXNG_HEADERS\`: Extra JSON headers for SearXNG search requests
+- \`SEARXNG_HEADERS_BASE64\`: Base64-encoded JSON headers for SearXNG search requests
 - \`URL_READER_HEADERS\`: Extra JSON headers for URL read requests
+- \`URL_READER_HEADERS_BASE64\`: Base64-encoded JSON headers for URL read requests
 - \`HTTP_PROXY\` / \`HTTPS_PROXY\`: Proxy server configuration
 - \`NO_PROXY\` / \`no_proxy\`: Comma-separated list of hosts to bypass proxy
 - \`MCP_HTTP_PORT\`: Enable HTTP transport on specified port

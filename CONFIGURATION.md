@@ -24,12 +24,14 @@ All environment variables for `mcp-searxng`, organized by concern. All variables
 
 ## Custom Headers
 
-Provide additional outgoing HTTP headers as JSON objects with string values.
+Provide additional outgoing HTTP headers as JSON objects with string values. Use the base64 variants when an MCP client UI has trouble preserving JSON quoting.
 
 | Variable | Required | Default | Description |
 |---|---|---|---|
 | `SEARXNG_HEADERS` | No | — | Extra headers for `searxng_web_search` requests to the SearXNG API |
+| `SEARXNG_HEADERS_BASE64` | No | — | Base64-encoded JSON headers for `searxng_web_search` requests |
 | `URL_READER_HEADERS` | No | — | Extra headers for `web_url_read` requests |
+| `URL_READER_HEADERS_BASE64` | No | — | Base64-encoded JSON headers for `web_url_read` requests |
 
 Example for Cloudflare Access in front of SearXNG:
 
@@ -94,7 +96,9 @@ Complete MCP client configuration with every variable. Mix and match as needed �
         "USER_AGENT": "MyBot/1.0",
         "URL_READER_USER_AGENT": "Mozilla/5.0 (compatible; MyBot/1.0)",
         "SEARXNG_HEADERS": "{\"CF-Access-Client-Id\":\"your-client-id.access\",\"CF-Access-Client-Secret\":\"your-client-secret\"}",
+        "SEARXNG_HEADERS_BASE64": "eyJDRi1BY2Nlc3MtQ2xpZW50LUlkIjoieW91ci1jbGllbnQtaWQuYWNjZXNzIiwiQ0YtQWNjZXNzLUNsaWVudC1TZWNyZXQiOiJ5b3VyLWNsaWVudC1zZWNyZXQifQ==",
         "URL_READER_HEADERS": "{\"X-Custom-Token\":\"reader-token\"}",
+        "URL_READER_HEADERS_BASE64": "eyJYLUN1c3RvbS1Ub2tlbiI6InJlYWRlci10b2tlbiJ9",
         "SEARCH_HTTP_PROXY": "http://search-proxy.company.com:8080",
         "SEARCH_HTTPS_PROXY": "http://search-proxy.company.com:8080",
         "URL_READER_HTTP_PROXY": "http://reader-proxy.company.com:8080",

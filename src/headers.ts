@@ -65,6 +65,26 @@ export function parseHeadersFromEnv(envVarName: string): HeaderRecord {
     return createHeaderRecord();
   }
 
+  return parseHeadersJson(rawHeaders, envVarName);
+}
+
+export function parseHeadersFromBase64Env(envVarName: string): HeaderRecord {
+  const rawHeaders = process.env[envVarName];
+  if (!rawHeaders) {
+    return createHeaderRecord();
+  }
+
+  let decodedHeaders: string;
+  try {
+    decodedHeaders = Buffer.from(rawHeaders, "base64").toString("utf8");
+  } catch {
+    throw createConfigurationError(`${envVarName} must be valid base64`);
+  }
+
+  return parseHeadersJson(decodedHeaders, envVarName);
+}
+
+function parseHeadersJson(rawHeaders: string, envVarName: string): HeaderRecord {
   let parsedHeaders: unknown;
   try {
     parsedHeaders = JSON.parse(rawHeaders);
@@ -90,6 +110,18 @@ export function parseHeadersFromEnv(envVarName: string): HeaderRecord {
   }
 
   return headers;
+}
+
+export function getSearxngHeadersFromEnv(): HeaderRecord {
+  return getHeadersFromEnv("SEARXNG_HEADERS", "SEARXNG_HEADERS_BASE64");
+}
+
+export function getUrlReaderHeadersFromEnv(): HeaderRecord {
+  return getHeadersFromEnv("URL_READER_HEADERS", "URL_READER_HEADERS_BASE64");
+}
+
+function getHeadersFromEnv(jsonEnvVarName: string, base64EnvVarName: string): HeaderRecord {
+  return mergeHeaders(parseHeadersFromEnv(jsonEnvVarName), parseHeadersFromBase64Env(base64EnvVarName));
 }
 
 export function mergeHeaders(headers: HeadersInit | undefined, additionalHeaders: HeaderRecord): HeaderRecord {

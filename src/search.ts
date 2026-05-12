@@ -2,7 +2,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { SearXNGWeb } from "./types.js";
 import { createProxyAgent, createDefaultAgent, ProxyType } from "./proxy.js";
 import { logMessage } from "./logging.js";
-import { mergeHeaders, parseHeadersFromEnv } from "./headers.js";
+import { getSearxngHeadersFromEnv, mergeHeaders } from "./headers.js";
 import {
   MCPSearXNGError,
   validateEnvironment,
@@ -97,7 +97,7 @@ export async function performWebSearch(
     };
   }
 
-  const additionalHeaders = parseHeadersFromEnv("SEARXNG_HEADERS");
+  const additionalHeaders = getSearxngHeadersFromEnv();
   if (Object.keys(additionalHeaders).length > 0) {
     requestOptions.headers = mergeHeaders(requestOptions.headers, additionalHeaders);
   }

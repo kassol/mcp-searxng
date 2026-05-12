@@ -426,6 +426,34 @@ async function runTests() {
     envManager.restore();
   }, results);
 
+  await testFunction('SEARXNG_HEADERS_BASE64 adds custom headers to search requests', async () => {
+    envManager.set('SEARXNG_URL', 'https://test-searx.example.com');
+    envManager.set('SEARXNG_HEADERS_BASE64', Buffer.from(JSON.stringify({
+      'X-Base64-Token': 'base64-token'
+    })).toString('base64'));
+
+    const mockServer = createMockServer();
+    const { mockFetch, getCapturedOptions } = createCapturingMockFetch();
+
+    fetchMocker.mock(async (url, options) => {
+      await mockFetch(url, options);
+      throw new Error('MOCK_STOP');
+    });
+
+    try {
+      await performWebSearch(mockServer as any, 'test query');
+    } catch {
+      // expected
+    }
+
+    const options = getCapturedOptions();
+    const headers = options?.headers as Record<string, string>;
+    assert.equal(headers['x-base64-token'], 'base64-token');
+
+    fetchMocker.restore();
+    envManager.restore();
+  }, results);
+
   await testFunction('User-Agent header absent when USER_AGENT env var not set', async () => {
     envManager.set('SEARXNG_URL', 'https://test-searx.example.com');
     envManager.delete('USER_AGENT');
