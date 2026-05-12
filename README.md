@@ -2,13 +2,12 @@
 
 An [MCP server](https://modelcontextprotocol.io/introduction) that integrates the [SearXNG](https://docs.searxng.org) API, giving AI assistants web search capabilities.
 
-This fork is published as `@kassol/mcp-searxng` and includes support for custom outgoing headers via `SEARXNG_HEADERS` and `URL_READER_HEADERS`.
+This fork is published as `@kassol/mcp-searxng` and includes support for custom outgoing headers via `SEARXNG_HEADERS`, `URL_READER_HEADERS`, and their base64 variants.
 
-[![https://nodei.co/npm/mcp-searxng.png?downloads=true&downloadRank=true&stars=true](https://nodei.co/npm/mcp-searxng.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/mcp-searxng)
-
-[![https://badgen.net/docker/pulls/isokoliuk/mcp-searxng](https://badgen.net/docker/pulls/isokoliuk/mcp-searxng)](https://hub.docker.com/r/isokoliuk/mcp-searxng)
-
-<a href="https://glama.ai/mcp/servers/0j7jjyt7m9"><img width="380" height="200" src="https://glama.ai/mcp/servers/0j7jjyt7m9/badge" alt="SearXNG Server MCP server" /></a>
+[![npm version](https://img.shields.io/npm/v/%40kassol%2Fmcp-searxng?label=npm)](https://www.npmjs.com/package/@kassol/mcp-searxng)
+[![npm downloads](https://img.shields.io/npm/dm/%40kassol%2Fmcp-searxng)](https://www.npmjs.com/package/@kassol/mcp-searxng)
+[![license](https://img.shields.io/npm/l/%40kassol%2Fmcp-searxng)](LICENSE)
+[![GitHub repo](https://img.shields.io/badge/github-kassol%2Fmcp--searxng-24292f?logo=github)](https://github.com/kassol/mcp-searxng)
 
 ## Quick Start
 
@@ -102,12 +101,10 @@ npm install -g @kassol/mcp-searxng
 </details>
 
 <details>
-<summary>Docker</summary>
-
-**Pre-built image:**
+<summary>Docker (local build)</summary>
 
 ```bash
-docker pull isokoliuk/mcp-searxng:latest
+docker build -t mcp-searxng:latest -f Dockerfile .
 ```
 
 ```json
@@ -118,7 +115,7 @@ docker pull isokoliuk/mcp-searxng:latest
       "args": [
         "run", "-i", "--rm",
         "-e", "SEARXNG_URL",
-        "isokoliuk/mcp-searxng:latest"
+        "mcp-searxng:latest"
       ],
       "env": {
         "SEARXNG_URL": "YOUR_SEARXNG_INSTANCE_URL"
@@ -130,14 +127,6 @@ docker pull isokoliuk/mcp-searxng:latest
 
 To pass additional env vars, add `-e VAR_NAME` to `args` and the variable to `env`.
 
-**Build locally:**
-
-```bash
-docker build -t mcp-searxng:latest -f Dockerfile .
-```
-
-Use the same config above, replacing `isokoliuk/mcp-searxng:latest` with `mcp-searxng:latest`.
-
 </details>
 
 <details>
@@ -148,7 +137,10 @@ Use the same config above, replacing `isokoliuk/mcp-searxng:latest` with `mcp-se
 ```yaml
 services:
   mcp-searxng:
-    image: isokoliuk/mcp-searxng:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mcp-searxng:latest
     stdin_open: true
     environment:
       - SEARXNG_URL=YOUR_SEARXNG_INSTANCE_URL
@@ -161,8 +153,8 @@ MCP client config:
 {
   "mcpServers": {
     "searxng": {
-      "command": "docker-compose",
-      "args": ["run", "--rm", "mcp-searxng"]
+      "command": "docker",
+      "args": ["compose", "run", "--rm", "mcp-searxng"]
     }
   }
 }
