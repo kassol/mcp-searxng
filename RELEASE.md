@@ -69,9 +69,15 @@ This repository publishes from GitHub Actions when a version tag is pushed. It u
 
 One-time npm setup:
 
-1. Open the package settings for `@kassol/mcp-searxng` on npmjs.com.
-2. Add a Trusted Publisher for GitHub Actions.
-3. Use these values:
+Configure Trusted Publishing with the npm CLI:
+
+```bash
+npm trust github @kassol/mcp-searxng --file publish.yml --repo kassol/mcp-searxng --yes
+```
+
+If npm asks for browser authentication or 2FA, complete that flow and rerun the command.
+
+Alternatively, open the package settings for `@kassol/mcp-searxng` on npmjs.com, add a Trusted Publisher for GitHub Actions, and use these values:
 
 ```text
 Organization or user: kassol
