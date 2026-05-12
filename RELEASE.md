@@ -83,14 +83,11 @@ Environment name: leave empty
 Release flow:
 
 ```bash
-npm pkg set version=1.1.0
-npm install --package-lock-only
-npm run sync-version
-git add package.json package-lock.json src/index.ts .mcp/server.json
-git commit -m "chore: release v1.1.0"
-git tag v1.1.0
+npm run release:minor
 git push origin main --tags
 ```
+
+Use `npm run release:patch` for bug fixes and `npm run release:major` for breaking changes. For an exact version, use `npm version 1.1.0`.
 
 The workflow validates that the pushed tag matches `package.json` before publishing.
 
